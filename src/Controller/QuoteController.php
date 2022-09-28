@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class QuoteController extends AbstractController
 {
     #[Route('/quote', name: 'quote_index')]
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $quotes = [
             ['content' => "Sire, Sire ! On en a gros !",
@@ -23,6 +24,12 @@ class QuoteController extends AbstractController
             ['content' => "Je viens de lui mettre une balle dans la tête…… Il m’a regardé de travers.",
                 'meta' => "Tommy Shelby Peaky Blinders"],
         ];
+
+        $searchTerm = $request->query->get("content");
+
+        $quotes = array_filter($quotes, function ($item) use ($searchTerm) {
+            return str_contains(strtolower($item['content']), strtolower($searchTerm));
+        });
 
         return $this->render('quote/index.html.twig', [
             'controller_name' => 'QuoteController',
