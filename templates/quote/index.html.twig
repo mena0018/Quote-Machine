@@ -25,7 +25,9 @@
                     <figcaption class="text-secondary fst-italic">{{ quote.meta }}</figcaption>
                 </figure>
             </li>
-        {% endfor %}
+       {% else %}
+            <li class="list-unstyled py-2 text-center fs-4 text-danger">Aucune citation trouvée</li>
+       {% endfor %}
     </ul>
 </div>
 {% endblock %}
