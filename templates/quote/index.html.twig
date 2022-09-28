@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Quote Page{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('/css/quote.css') }}" type="text/css"/>{% endblock %}
+{% block body %}
+
+<div class="container-xxl p-3">
+    <h1 class="pb-5 pt-2 text-center">Liste des citations</h1>
+    <ul>
+       {% for quote in quotes %}
+            <li class="list-unstyled py-2">
+                <figure>
+                    <blockquote class="fs-5">{{ quote.content }}</blockquote>
+                    <figcaption class="text-secondary fst-italic">{{ quote.meta }}</figcaption>
+                </figure>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}
