@@ -6,7 +6,7 @@
 {% block body %}
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand">Quote Machine</a>
+        <a role="button" class="navbar-brand" href={{ path('home') }}>Quote Machine</a>
         <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Rechercher" aria-label="Search"
                    name="content" value="{{ app.request.query.get('content') }}">
