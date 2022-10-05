@@ -42,7 +42,7 @@ class QuoteController extends AbstractController
 
             $entityManager->persist($quote);
             $entityManager->flush();
-            $this->addFlash('success', "Citation ajouté avec succès");
+            $this->addFlash('success', "Citation ajoutée avec succès");
             return $this->redirectToRoute('quote_index');
         }
 
@@ -59,7 +59,7 @@ class QuoteController extends AbstractController
 
         if (!$quote) {
             throw $this->createNotFoundException(
-                'Aucune citation trouvé pour l\'identifiant '.$id
+                'Aucune citation trouvée pour l\'identifiant '.$id
             );
         }
 
@@ -68,7 +68,7 @@ class QuoteController extends AbstractController
             $quote->setMeta($request->request->get("metadata"));
 
             $entityManager->flush();
-            $this->addFlash('success', "Citation modifié avec succès");
+            $this->addFlash('success', "Citation modifiée avec succès");
             return $this->redirectToRoute('quote_index');
         }
 
@@ -86,10 +86,10 @@ class QuoteController extends AbstractController
         if ($quote) {
             $entityManager->remove($quote);
             $entityManager->flush();
-            $this->addFlash('success', "Citation supprimé avec succès");
+            $this->addFlash('success', "Citation supprimée avec succès");
         } else {
             throw $this->createNotFoundException(
-                'Aucune citation trouvé pour l\'identifiant '.$id
+                'Aucune citation trouvée pour l\'identifiant '.$id
             );
         }
 
