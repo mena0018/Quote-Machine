@@ -17,7 +17,6 @@ class QuoteController extends AbstractController
     {
         $searchTerm = $request->query->get("content");
         $quotes = $doctrine->getRepository(Quote::class)->findByContent($searchTerm);
-
         return $this->render('quote/index.html.twig', [
             'controller_name' => 'QuoteController',
             'quotes' => $quotes
@@ -40,6 +39,31 @@ class QuoteController extends AbstractController
         }
 
         return $this->render('quote/new.html.twig', [
+            'controller_name' => 'QuoteController',
+        ]);
+    }
+
+    #[Route('/edit/{id}', name: 'quote_edit')]
+    public function edit(ManagerRegistry $doctrine, Request $request, int $id): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $quote = $entityManager->getRepository(Quote::class)->find($id);
+
+        if (!$quote) {
+            throw $this->createNotFoundException(
+                'Aucune quote trouvé pour l\'identifiant '.$id
+            );
+        }
+
+        if ($request->isMethod('POST')) {
+            $quote->setContent($request->request->get("citation"));
+            $quote->setMeta($request->request->get("metadata"));
+
+            $entityManager->flush();
+            return $this->redirectToRoute('quote_index');
+        }
+
+        return $this->render('quote/edit.html.twig', [
             'controller_name' => 'QuoteController',
         ]);
     }

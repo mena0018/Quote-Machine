@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier une citation{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <h1 class="py-4">Modifier une citation</h1>
+
+    <form class="form-group" method="post">
+        <div class="form-group">
+            <label for="citation">Citation</label>
+            <input class="form-control mb-3 mt-1" id="citation"  type="text" name="citation">
+        </div>
+        <div class="form-group">
+            <label for="metadata">Métadonnée</label>
+            <input class="form-control mb-3 mt-1" id="metadata" type="text" name="metadata">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sauvegarder</button>
+    </form>
+</div>
+{% endblock %}
