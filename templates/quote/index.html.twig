@@ -1,19 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Quote Page{% endblock %}
+{% block title %}Liste des citations{% endblock %}
 {% block stylesheets %}<link rel="stylesheet" href="{{ asset('/css/quote.css') }}" type="text/css"/>{% endblock %}
 
 {% block body %}
-<nav class="navbar navbar-light bg-light">
-    <div class="container-fluid">
-        <a role="button" class="navbar-brand" href={{ path('home') }}>Quote Machine</a>
-        <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Rechercher" aria-label="Search"
-                   name="content" value="{{ app.request.query.get('content') }}">
-            <button class="btn btn-outline-success" type="submit">Rechercher</button>
-        </form>
-    </div>
-</nav>
 
 <div class="container-xxl p-3">
     <h1 class="pb-5 pt-2 text-center">Liste des citations</h1>
