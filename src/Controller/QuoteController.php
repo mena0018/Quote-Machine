@@ -2,34 +2,21 @@
 
 namespace App\Controller;
 
+use App\Entity\Quote;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/quote')]
 class QuoteController extends AbstractController
 {
-    #[Route('/quote', name: 'quote_index')]
-    public function index(Request $request): Response
+    #[Route('/', name: 'quote_index')]
+    public function index(Request $request, ManagerRegistry $doctrine): Response
     {
-        $quotes = [
-            ['content' => "Sire, Sire ! On en a gros !",
-                'meta' => "Perceval, Livre II, Les Exploités"],
-            ['content' => "[Dame Séli : Les tartes, la pêche, tout ça c'est du patrimoine] (Arthur, montrant la tarte) C'est du patrimoine ça ?",
-                'meta' => "Arthur, Livre I, La tarte aux myrtilles"],
-            ['content' => "Quoi, c'est parce que je préfère les hommes c'est ça ? A ce compte là faut virer Bohort aussi...",
-                'meta' => "Edern, épisode pilotes,6 : Le Chevalier femme"],
-            ['content' => "Don't f*ck with the Peaky Blinders !",
-                'meta' => "Tommy Shelby Peaky Blinders"],
-            ['content' => "Je viens de lui mettre une balle dans la tête…… Il m’a regardé de travers.",
-                'meta' => "Tommy Shelby Peaky Blinders"],
-        ];
-
         $searchTerm = $request->query->get("content");
-
-        $quotes = array_filter($quotes, function ($item) use ($searchTerm) {
-            return str_contains(strtolower($item['content']), strtolower($searchTerm));
-        });
+        $quotes = $doctrine->getRepository(Quote::class)->findByContent($searchTerm);
 
         return $this->render('quote/index.html.twig', [
             'controller_name' => 'QuoteController',
