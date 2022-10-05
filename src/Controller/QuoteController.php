@@ -23,4 +23,24 @@ class QuoteController extends AbstractController
             'quotes' => $quotes
         ]);
     }
+
+    #[Route('/new', name: 'quote_new')]
+    public function new(ManagerRegistry $doctrine, Request $request): Response
+    {
+        $entityManager = $doctrine->getManager();
+
+        if ($request->isMethod('POST')) {
+            $quote = new Quote();
+            $quote->setContent($request->request->get("citation"));
+            $quote->setMeta($request->request->get("metadata"));
+
+            $entityManager->persist($quote);
+            $entityManager->flush();
+            return $this->redirectToRoute('quote_index');
+        }
+
+        return $this->render('quote/new.html.twig', [
+            'controller_name' => 'QuoteController',
+        ]);
+    }
 }
