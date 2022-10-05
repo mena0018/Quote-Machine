@@ -21,7 +21,7 @@ class QuoteController extends AbstractController
 
         if (!empty($searchTerm)) {
             $queryBuilder->where('q.content LIKE :content')
-                ->setParameter('content', '%'.$searchTerm.'%');
+                ->setParameter('content', '%' . $searchTerm . '%');
         }
 
         return $this->render('quote/index.html.twig', [
@@ -42,6 +42,7 @@ class QuoteController extends AbstractController
 
             $entityManager->persist($quote);
             $entityManager->flush();
+            $this->addFlash('success', "Citation ajouté avec succès");
             return $this->redirectToRoute('quote_index');
         }
 
@@ -58,7 +59,7 @@ class QuoteController extends AbstractController
 
         if (!$quote) {
             throw $this->createNotFoundException(
-                'Aucune quote trouvé pour l\'identifiant '.$id
+                'Aucune citation trouvé pour l\'identifiant '.$id
             );
         }
 
@@ -67,11 +68,31 @@ class QuoteController extends AbstractController
             $quote->setMeta($request->request->get("metadata"));
 
             $entityManager->flush();
+            $this->addFlash('success', "Citation modifié avec succès");
             return $this->redirectToRoute('quote_index');
         }
 
         return $this->render('quote/edit.html.twig', [
             'controller_name' => 'QuoteController',
         ]);
+    }
+
+    #[Route('/delete/{id}', name: 'quote_delete')]
+    public function delete(ManagerRegistry $doctrine, int $id): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $quote = $entityManager->getRepository(Quote::class)->find($id);
+
+        if ($quote) {
+            $entityManager->remove($quote);
+            $entityManager->flush();
+            $this->addFlash('success', "Citation supprimé avec succès");
+        } else {
+            throw $this->createNotFoundException(
+                'Aucune citation trouvé pour l\'identifiant '.$id
+            );
+        }
+
+        return $this->redirectToRoute('home');
     }
 }
