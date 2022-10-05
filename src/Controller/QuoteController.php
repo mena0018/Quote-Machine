@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Quote;
+use App\Repository\QuoteRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,13 +14,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class QuoteController extends AbstractController
 {
     #[Route('/', name: 'quote_index')]
-    public function index(Request $request, ManagerRegistry $doctrine): Response
+    public function index(Request $request, QuoteRepository $quoteRepository): Response
     {
         $searchTerm = $request->query->get("content");
-        $quotes = $doctrine->getRepository(Quote::class)->findByContent($searchTerm);
+        $queryBuilder = $quoteRepository->createQueryBuilder('q');
+
+        if (!empty($searchTerm)) {
+            $queryBuilder->where('q.content LIKE :content')
+                ->setParameter('content', '%'.$searchTerm.'%');
+        }
+
         return $this->render('quote/index.html.twig', [
             'controller_name' => 'QuoteController',
-            'quotes' => $quotes
+            'quotes' => $queryBuilder->getQuery()->getResult(),
         ]);
     }
 
