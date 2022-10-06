@@ -9,11 +9,23 @@
     <h1 class="pb-5 pt-2 text-center">Liste des citations</h1>
     <ul>
        {% for quote in quotes %}
-            <li class="list-unstyled py-2">
-                <figure>
-                    <blockquote class="fs-5">{{ quote.content }}</blockquote>
+            <li class="list-unstyled mb-5">
+                <figure class="m-0">
+                    <blockquote class="fs-5 m-0">{{ quote.content }}</blockquote>
                     <figcaption class="text-secondary fst-italic">{{ quote.meta }}</figcaption>
                 </figure>
+
+                <div class="pt-2">
+                    <button type="button" class="btn btn-primary">
+                        <a class="text-white" href="{{ path('quote_edit', {id: quote.id}) }}">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                    </button>
+                    <button type="button" class="btn btn-danger">
+                        <a class="text-white" href="{{ path('quote_delete', {id: quote.id}) }}">
+                            <i class="fa-solid fa-trash"></i></a>
+                    </button>
+                </div>
             </li>
        {% else %}
             <li class="list-unstyled py-2 text-center fs-4 text-danger">Aucune citation trouvée</li>
