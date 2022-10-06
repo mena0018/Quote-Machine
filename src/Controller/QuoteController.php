@@ -5,16 +5,17 @@ namespace App\Controller;
 use App\Entity\Quote;
 use App\Repository\QuoteRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/quote')]
 class QuoteController extends AbstractController
 {
-    #[Route('/', name: 'quote_index')]
-    public function index(Request $request, QuoteRepository $quoteRepository): Response
+    #[Route('/quote', name: 'quote_index')]
+    public function index(Request $request, QuoteRepository $quoteRepository, PaginatorInterface $paginator): Response
     {
         $searchTerm = $request->query->get("content");
         $queryBuilder = $quoteRepository->createQueryBuilder('q');
@@ -24,13 +25,19 @@ class QuoteController extends AbstractController
                 ->setParameter('content', '%' . $searchTerm . '%');
         }
 
+        $quotes = $paginator->paginate(
+            $queryBuilder->getQuery()->getResult(),
+            $request->query->getInt('page', 1),
+            5
+        );
+
         return $this->render('quote/index.html.twig', [
             'controller_name' => 'QuoteController',
-            'quotes' => $queryBuilder->getQuery()->getResult(),
+            'quotes' => $quotes,
         ]);
     }
 
-    #[Route('/new', name: 'quote_new')]
+    #[Route('/quote/new', name: 'quote_new')]
     public function new(ManagerRegistry $doctrine, Request $request): Response
     {
         $entityManager = $doctrine->getManager();
@@ -51,11 +58,11 @@ class QuoteController extends AbstractController
         ]);
     }
 
-    #[Route('/edit/{id}', name: 'quote_edit')]
-    public function edit(ManagerRegistry $doctrine, Request $request, int $id): Response
+    #[ParamConverter('quote', options: ['mapping' => ['quoteId' => 'id']])]
+    #[Route('/quote/edit/{id}', name: 'quote_edit')]
+    public function edit(ManagerRegistry $doctrine, Request $request, Quote $quote): Response
     {
         $entityManager = $doctrine->getManager();
-        $quote = $entityManager->getRepository(Quote::class)->find($id);
 
         if (!$quote) {
             throw $this->createNotFoundException(
@@ -77,7 +84,7 @@ class QuoteController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{id}', name: 'quote_delete')]
+    #[Route('/quote/delete/{id}', name: 'quote_delete')]
     public function delete(ManagerRegistry $doctrine, int $id): Response
     {
         $entityManager = $doctrine->getManager();
