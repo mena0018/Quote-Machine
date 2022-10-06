@@ -17,15 +17,30 @@
         {% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-light bg-light">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
             <div class="container-fluid">
-                <a role="button" class="navbar-brand" href={{ path('home') }}>Quote Machine</a>
-                <a role="button" class="navbar-brand" href={{ path('quote_new') }}>Ajouter</a>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Rechercher" aria-label="Search"
-                           name="content" value="{{ app.request.query.get('content') }}">
-                    <button class="btn btn-outline-success" type="submit">Rechercher</button>
-                </form>
+                <a class="navbar-brand" href="/">QuoteMachine</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('quote_new') }}">
+                                Ajouter
+                            </a>
+                        </li>
+                    </ul>
+                    <form method="get" class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Rechercher" aria-label="Search"
+                               name="content" value="{{ app.request.query.get('content') }}">
+                        <button class="btn btn-outline-success" type="submit">Rechercher</button>
+                    </form>
+                </div>
             </div>
         </nav>
 
