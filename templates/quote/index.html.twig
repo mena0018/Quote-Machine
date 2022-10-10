@@ -5,9 +5,9 @@
 
 {% block body %}
 
-<div class="container-xxl p-3 position-relative">
+<div class="container-xxl p-3 position-relative h-100">
     <h1 class="pb-5 pt-2 text-center">Liste des citations</h1>
-    <ul>
+    <ul class="overflow-auto h-75">
        {% for quote in quotes %}
             <li class="list-unstyled mb-5">
                 <figure class="m-0">
