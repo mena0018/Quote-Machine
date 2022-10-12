@@ -3,8 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Quote;
+use App\Form\QuoteType;
 use App\Repository\QuoteRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,30 +39,28 @@ class QuoteController extends AbstractController
     }
 
     #[Route('/new', name: 'quote_new')]
-    public function new(ManagerRegistry $doctrine, Request $request): Response
+    public function new(EntityManagerInterface $entityManager, Request $request): Response
     {
-        $entityManager = $doctrine->getManager();
+        $quote = new Quote();
+        $form = $this->createForm(QuoteType::class, $quote);
+        $form->handleRequest($request);
 
-        if ($request->isMethod('POST')) {
-            $quote = new Quote();
-            $quote->setContent($request->request->get("citation"));
-            $quote->setMeta($request->request->get("metadata"));
-
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($quote);
             $entityManager->flush();
+
             $this->addFlash('success', "Citation ajoutée avec succès");
             return $this->redirectToRoute('quote_index');
         }
 
         return $this->render('quote/new.html.twig', [
-            'controller_name' => 'QuoteController',
+            'quoteForm' => $form->createView()
         ]);
     }
 
     #[Route('/edit/{id}', name: 'quote_edit')]
-    public function edit(ManagerRegistry $doctrine, Request $request, int $id): Response
+    public function edit(EntityManagerInterface $entityManager, Request $request, int $id): Response
     {
-        $entityManager = $doctrine->getManager();
         $quote = $entityManager->getRepository(Quote::class)->find($id);
 
         if (!$quote) {
@@ -70,25 +69,25 @@ class QuoteController extends AbstractController
             );
         }
 
-        if ($request->isMethod('POST')) {
-            $quote->setContent($request->request->get("citation"));
-            $quote->setMeta($request->request->get("metadata"));
+        $form = $this->createForm(QuoteType::class, $quote);
+        $form->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($quote);
             $entityManager->flush();
+
             $this->addFlash('success', "Citation modifiée avec succès");
             return $this->redirectToRoute('quote_index');
         }
 
-        return $this->render('quote/edit.html.twig', [
-            'controller_name' => 'QuoteController',
-            'quote' => $quote
+        return $this->render('quote/new.html.twig', [
+            'quoteForm' => $form->createView()
         ]);
     }
 
     #[Route('/delete/{id}', name: 'quote_delete')]
-    public function delete(ManagerRegistry $doctrine, int $id): Response
+    public function delete(EntityManagerInterface $entityManager, int $id): Response
     {
-        $entityManager = $doctrine->getManager();
         $quote = $entityManager->getRepository(Quote::class)->find($id);
 
         if ($quote) {
