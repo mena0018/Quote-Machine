@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une citation{% endblock %}
+
+{% block body %}
+    <div class="container-xxl p-3">
+        <h1 class="py-4">Citation aléatoire</h1>
+
+        <div class="5">
+            <figure class="m-0">
+                <blockquote class="fs-5 m-0">{{ quote.content }}</blockquote>
+                <figcaption class="text-secondary fst-italic">{{ quote.meta }}</figcaption>
+            </figure>
+
+            <div class="pt-2">
+                <button type="button" class="btn btn-primary">
+                    <a class="text-white" href="{{ path('quote_edit', {id: quote.id}) }}">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+                </button>
+                <button type="button" class="btn btn-danger">
+                    <a class="text-white" href="{{ path('quote_delete', {id: quote.id}) }}">
+                        <i class="fa-solid fa-trash"></i></a>
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -80,7 +80,7 @@ class QuoteController extends AbstractController
             return $this->redirectToRoute('quote_index');
         }
 
-        return $this->render('quote/new.html.twig', [
+        return $this->render('quote/edit.html.twig', [
             'quoteForm' => $form->createView()
         ]);
     }
@@ -101,5 +101,23 @@ class QuoteController extends AbstractController
         }
 
         return $this->redirectToRoute('home');
+    }
+
+    #[Route('/random', name: 'quote_random')]
+    public function random(EntityManagerInterface $entityManager): Response
+    {
+        $qb = $entityManager->createQueryBuilder();
+        $qb->select('q.id');
+        $qb->from('App:Quote', 'q');
+
+        $res = $qb->getQuery()->getResult();
+        $flatRes = array_column($res, "id");
+        $id = $res[array_rand($flatRes, 1)];
+
+        $quote = $entityManager->getRepository(Quote::class)->find($id);
+
+        return $this->render('quote/random.html.twig', [
+            'quote' => $quote,
+        ]);
     }
 }
