@@ -15,16 +15,17 @@ class Quote
     private ?int $id = null;
 
     #[Assert\NotBlank]
-    #[Assert\NotNull]
     #[Assert\Length(max: 255)]
     #[ORM\Column(length: 255)]
     private ?string $content = null;
 
     #[Assert\NotBlank]
-    #[Assert\NotNull]
     #[Assert\Length(max: 255)]
     #[ORM\Column(length: 255)]
     private ?string $meta = null;
+
+    #[ORM\ManyToOne(inversedBy: 'quotes')]
+    private ?Category $category = null;
 
     public function getId(): ?int
     {
@@ -51,6 +52,18 @@ class Quote
     public function setMeta(string $meta): self
     {
         $this->meta = $meta;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
