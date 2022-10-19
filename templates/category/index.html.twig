@@ -7,11 +7,12 @@
     <h1 class="pb-5 pt-2 text-center">Liste des catégories</h1>
 
     <div class="overflow-auto h-75">
-        {% for category in categories %}
+        {% for category in categories.items %}
             <div class="my-5">
-                <a href="{{ path('app_category_show', {'id': category.id}) }}" class="fs-5">
-                    {{ category.name }}
+                <a href="{{ path('app_category_show', {'id': category[0].id}) }}" class="fs-5">
+                    {{ category[0].name }}
                 </a>
+                <p class="pt-1">{{ category[1] }} citations.</p>
             </div>
         {% else %}
             <p class="py-2 text-center fs-4 text-danger">Aucune catégorie trouvée</p>
