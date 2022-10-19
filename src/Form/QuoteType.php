@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\Quote;
+use App\Repository\CategoryRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,6 +25,15 @@ class QuoteType extends AbstractType
             ->add('meta', TextType::class, [
                 'required' => true,
                 'constraints' => [new Assert\Length(['max' => 255])]
+            ])
+            ->add('category', EntityType::class, [
+                'required' => true,
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'query_builder' => function (CategoryRepository $q) {
+                    return $q->createQueryBuilder('q')
+                        ->orderBy('q.name');
+                },
             ])
             ->add('Sauvegarder', SubmitType::class)
         ;
