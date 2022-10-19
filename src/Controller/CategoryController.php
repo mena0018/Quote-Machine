@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +16,23 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryController extends AbstractController
 {
     #[Route('/', name: 'app_category_index', methods: ['GET'])]
-    public function index(CategoryRepository $categoryRepository): Response
+    public function index(Request $request, PaginatorInterface $paginator, EntityManagerInterface $entityManager): Response
     {
+        $queryBuilder = $entityManager->createQuery(
+            'SELECT c
+             FROM App\Entity\Category c
+             JOIN App\Entity\Quote q
+             WHERE c.id = q.category
+             GROUP BY q.category');
+
+        $categories = $paginator->paginate(
+            $queryBuilder->getResult(),
+            $request->query->getInt('page', 1),
+            5
+        );
+
         return $this->render('category/index.html.twig', [
-            'categories' => $categoryRepository->findAll(),
+            'categories' => $categories
         ]);
     }
 
