@@ -12,7 +12,12 @@
             <li class="list-unstyled mb-5">
                 <figure class="m-0">
                     <blockquote class="fs-5 m-0">{{ quote.content }}</blockquote>
-                    <figcaption class="text-secondary fst-italic">{{ quote.meta }}</figcaption>
+                    <figcaption class="text-secondary fst-italic">
+                       <cite>{{ quote.meta }}</cite> 
+                         <a class="ms-1" href="{{ path('app_category_show', {id: quote.category.id}) }}">
+                            <span class="badge bg-dark">{{ quote.category.name }}</span>
+                         </a>
+                    </figcaption>
                 </figure>
 
                 <div class="pt-2">
