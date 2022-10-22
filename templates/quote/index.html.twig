@@ -1,36 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Liste des citations{% endblock %}
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('/css/quote.css') }}" type="text/css"/>{% endblock %}
 
 {% block body %}
 
 <div class="container-xxl p-3 position-relative h-100">
-    <h1 class="pb-5 pt-2 text-center">Liste des citations</h1>
+    <h1 class="pt-4 pb-5">Liste des citations</h1>
     <ul class="overflow-auto h-75">
        {% for quote in quotes %}
             <li class="list-unstyled mb-5">
-                <figure class="m-0">
+               <figure class="m-0 mb-3">
                     <blockquote class="fs-5 m-0">{{ quote.content }}</blockquote>
                     <figcaption class="text-secondary fst-italic">
-                       <cite>{{ quote.meta }}</cite> 
-                         <a class="ms-1" href="{{ path('app_category_show', {id: quote.category.id}) }}">
+                        <cite>{{ quote.meta }}</cite> 
+                        <a class="ms-1" href="{{ path('app_category_show', {id: quote.category.id}) }}">
                             <span class="badge bg-dark">{{ quote.category.name }}</span>
-                         </a>
+                        </a>
                     </figcaption>
                 </figure>
 
-                <div class="pt-2">
-                    <button type="button" class="btn btn-primary">
-                        <a class="text-white" href="{{ path('quote_edit', {id: quote.id}) }}">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </a>
-                    </button>
-                    <button type="button" class="btn btn-danger">
-                        <a class="text-white" href="{{ path('quote_delete', {id: quote.id}) }}">
-                            <i class="fa-solid fa-trash"></i></a>
-                    </button>
-                </div>
+                <a class="btn btn-light" href="{{ path('quote_edit', {id: quote.id}) }}">Modifier</a>
+                <a class="btn btn-light" href="{{ path('quote_delete', {id: quote.id}) }}">Supprimer</a>
             </li>
        {% else %}
             <li class="list-unstyled py-2 text-center fs-4 text-danger">Aucune citation trouvée</li>
