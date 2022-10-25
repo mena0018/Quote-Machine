@@ -5,7 +5,6 @@
 {% block body %}
 <div class="container-xxl p-3">
     <h1 class="py-4">Catégorie "{{ category.name }}"</h1>
-
     <ul>
         {% for quote in category.quotes %}
             <li class="list-unstyled mb-5">
@@ -19,8 +18,7 @@
        {% endfor %}
     </ul>
 
-    <a class="btn btn-light" href="{{ path('app_category_edit', {id: category.id}) }}">Modifier</a>
-    <a class="btn btn-light" href="{{ path('app_category_delete', {'id': category.id}) }}">Supprimer</a>
+    {{ include('category/_delete_form.html.twig') }}
 </div>
 
 {% endblock %}
