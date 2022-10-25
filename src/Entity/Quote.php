@@ -25,6 +25,7 @@ class Quote
     private ?string $meta = null;
 
     #[ORM\ManyToOne(inversedBy: 'quotes')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private ?Category $category = null;
 
     public function getId(): ?int
