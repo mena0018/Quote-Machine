@@ -9,18 +9,7 @@
     <ul class="overflow-auto h-75">
        {% for quote in quotes %}
             <li class="list-unstyled mb-5">
-               <figure class="m-0 mb-3">
-                    <blockquote class="fs-5 m-0">{{ quote.content }}</blockquote>
-                    <figcaption class="text-secondary fst-italic">
-                        <cite>{{ quote.meta }}</cite> 
-                        <a class="ms-1" href="{{ path('app_category_show', {id: quote.category.id}) }}">
-                            <span class="badge bg-dark">{{ quote.category.name }}</span>
-                        </a>
-                    </figcaption>
-                </figure>
-
-                <a class="btn btn-light" href="{{ path('quote_edit', {id: quote.id}) }}">Modifier</a>
-                <a class="btn btn-light" href="{{ path('quote_delete', {id: quote.id}) }}">Supprimer</a>
+                {{ include('quote/_quote.html.twig') }}
             </li>
        {% else %}
             <li class="list-unstyled py-2 text-center fs-4 text-danger">Aucune citation trouvée</li>
