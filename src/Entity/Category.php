@@ -41,13 +41,14 @@ use Symfony\Component\HttpFoundation\File\File;
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private ?string $imageName = null;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: 'datetime', nullable: false)]
     private ?\DateTimeInterface $updatedAt = null;
 
 
     public function __construct()
     {
         $this->quotes = new ArrayCollection();
+        $this->updatedAt = new \DateTime();
     }
 
     public function getId(): ?int
