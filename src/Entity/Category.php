@@ -8,8 +8,17 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+
+
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
-class Category
+/**
+ * Class Image
+ *
+ * @ORM\Entity
+ * @Vich\Uploadable
+ */class Category
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -23,6 +32,18 @@ class Category
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Quote::class)]
     private Collection $quotes;
+
+    /**
+     * @Vich\UploadableField(mapping="image_upload", fileNameProperty="imageName")
+     */
+    private ?File $imageFile = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $imageName = null;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $updatedAt = null;
+
 
     public function __construct()
     {
@@ -74,5 +95,31 @@ class Category
         }
 
         return $this;
+    }
+
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageName(?string $imageName): void
+    {
+        $this->imageName = $imageName;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
     }
 }
