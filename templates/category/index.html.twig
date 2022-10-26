@@ -8,11 +8,15 @@
 
     <div class="overflow-auto h-75">
         {% for category in categories.items %}
-            <div class="my-5">
-                <a href="{{ path('app_category_show', {'id': category[0].id}) }}" class="fs-5">
-                    {{ category[0].name }}
-                </a>
-                <p class="pt-1">{{ category[1] }} citations.</p>
+            <div class="my-5 d-flex align-items-center gap-3">
+                {% if category[0].imageName %}
+                    <img src="{{ vich_uploader_asset(category[0]) }}" alt="{{ category[0].name }}">
+                {% endif %}
+
+                <div>
+                    <a href="{{ path('app_category_show', {'id': category[0].id}) }}" class="fs-5">{{ category[0].name }}</a>
+                    <p class="pt-1">{{ category[1] }} citations.</p>
+                </div>
             </div>
         {% else %}
             <p class="py-2 text-center fs-4 text-danger">Aucune catégorie trouvée</p>
