@@ -9,13 +9,14 @@
         {% for quote in category.quotes %}
             <li class="list-unstyled mb-5">
                 {{ include('quote/_quote.html.twig') }}
+                {{ include('quote/_quote_id.html.twig') }}
             </li>
        {% else %}
             <li class="list-unstyled py-2 text-center fs-4 text-danger">Aucune citation trouvée pour cette c</li>
        {% endfor %}
     </ul>
 
-    {{ include('category/_delete_form.html.twig') }}
+    {{ include('category/_edit_delete_form.html.twig') }}
 </div>
 
 {% endblock %}
