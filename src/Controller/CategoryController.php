@@ -19,12 +19,11 @@ class CategoryController extends AbstractController
     public function index(Request $request, PaginatorInterface $paginator, EntityManagerInterface $entityManager): Response
     {
         $queryBuilder = $entityManager->createQuery(
-            'SELECT c, COUNT(q.category)
+            'SELECT c, COUNT(q)
              FROM App\Entity\Category c
-             JOIN App\Entity\Quote q
-             WHERE c.id = q.category
-             GROUP BY q.category
-             ORDER BY COUNT(q.category) DESC');
+             LEFT JOIN c.quotes q
+             GROUP BY c
+             ORDER BY COUNT(q) DESC');
 
         $categories = $paginator->paginate(
             $queryBuilder->getResult(),
