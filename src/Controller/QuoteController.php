@@ -58,6 +58,12 @@ class QuoteController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}', name: 'quote_show', methods: ['GET'])]
+    public function show(Quote $quote): Response
+    {
+        return $this->render('quote/show.html.twig', ['quote' => $quote]);
+    }
+
     #[Route('/edit/{id}', name: 'quote_edit')]
     public function edit(EntityManagerInterface $entityManager, Request $request, int $id): Response
     {
