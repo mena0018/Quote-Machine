@@ -10,6 +10,7 @@
        {% for quote in quotes %}
             <li class="list-unstyled mb-5">
                 {{ include('quote/_quote.html.twig') }}
+                {{ include('quote/_edit_delete.html.twig') }}
             </li>
        {% else %}
             <li class="list-unstyled py-2 text-center fs-4 text-danger">Aucune citation trouvée</li>
