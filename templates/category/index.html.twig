@@ -5,12 +5,12 @@
 {% block body %}
 <div class="container-xxl p-3 position-relative h-100">
     <h1 class="pt-4 pb-2">Liste des catégories</h1>
-
     <div class="overflow-auto h-75">
+
         {% for category in categories.items %}
-            <div class="my-5 d-flex align-items-center gap-3">
+            <div class="my-4 d-flex align-items-center gap-3">
                 {% if category[0].imageName %}
-                    <img src="{{ vich_uploader_asset(category[0]) }}" alt="{{ category[0].name }}">
+                    <img src="{{ vich_uploader_asset(category[0]) | imagine_filter('mini')}}" alt="{{ category[0].name }}">
                 {% endif %}
 
                 <div>
