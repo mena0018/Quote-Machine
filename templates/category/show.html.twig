@@ -3,9 +3,14 @@
 {% block title %}Category{% endblock %}
 
 {% block body %}
-<div class="container-xxl p-3">
-    <h1 class="py-4">Catégorie "{{ category.name }}"</h1>
-    <ul>
+<div class="container-xxl p-3 h-100">
+    <h1>Catégorie "{{ category.name }}"</h1>
+
+    {% if category.imageName %}
+        <img class="pt-4 pb-3" src="{{ vich_uploader_asset(category) | imagine_filter('medium')}}" alt="{{ category.name }}">
+    {% endif %} 
+
+    <ul style="height: 40%" class="overflow-auto">
         {% for quote in category.quotes %}
             <li class="list-unstyled mb-5">
                 {{ include('quote/_quote.html.twig') }}
@@ -15,6 +20,7 @@
             <li class="list-unstyled py-2 text-center fs-4 text-danger">Aucune citation trouvée pour cette catégorie</li>
        {% endfor %}
     </ul>
+
 
     {{ include('category/_edit_delete_form.html.twig') }}
 </div>
