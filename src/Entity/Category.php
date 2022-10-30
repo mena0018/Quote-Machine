@@ -16,8 +16,8 @@ use Symfony\Component\HttpFoundation\File\File;
 /**
  * Class Image
  *
- * @ORM\Entity
  * @Vich\Uploadable
+ * 
  */class Category
 {
     #[ORM\Id]
@@ -48,7 +48,7 @@ use Symfony\Component\HttpFoundation\File\File;
     public function __construct()
     {
         $this->quotes = new ArrayCollection();
-        $this->updatedAt = new DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     public function getId(): ?int
