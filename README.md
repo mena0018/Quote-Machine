@@ -13,13 +13,13 @@
 ```bash
   git clone https://iut-info.univ-reims.fr/gitlab/mena0018/quote-machine.git
   cd quote-machine/
-  make init
+  composer install
 ```
 
 ### Configuration de la base de données
 
 ```bash
-  make database-init
+  composer db
 ```
 
 ### Lancement de l'application
