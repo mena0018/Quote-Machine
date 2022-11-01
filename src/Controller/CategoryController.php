@@ -32,7 +32,7 @@ class CategoryController extends AbstractController
         );
 
         return $this->render('category/index.html.twig', [
-            'categories' => $categories
+            'categories' => $categories,
         ]);
     }
 
@@ -45,7 +45,7 @@ class CategoryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $categoryRepository->save($category, true);
-            $this->addFlash('success', "Catégorie ajoutée avec succès");
+            $this->addFlash('success', 'Catégorie ajoutée avec succès');
 
             return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -72,7 +72,7 @@ class CategoryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $categoryRepository->save($category, true);
-            $this->addFlash('success', "Catégorie modifiée avec succès");
+            $this->addFlash('success', 'Catégorie modifiée avec succès');
 
             return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -88,7 +88,7 @@ class CategoryController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
             $categoryRepository->remove($category, true);
-            $this->addFlash('success', "Catégorie supprimée avec succès");
+            $this->addFlash('success', 'Catégorie supprimée avec succès');
         }
 
         return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);

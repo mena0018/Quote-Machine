@@ -11,11 +11,11 @@ class CategoryFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         CategoryFactory::createOne([
-            'name' => 'Kaameloott'
+            'name' => 'Kaameloott',
         ]);
 
         CategoryFactory::createOne([
-            'name' => 'Peaky Blinders'
+            'name' => 'Peaky Blinders',
         ]);
 
         CategoryFactory::createMany(5);

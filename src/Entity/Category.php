@@ -6,19 +6,16 @@ use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
-
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 /**
- * Class Image
+ * Class Image.
  *
  * @Vich\Uploadable
- * 
- */class Category
+ */ class Category
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -43,7 +40,6 @@ use Symfony\Component\HttpFoundation\File\File;
 
     #[ORM\Column(type: 'datetime', nullable: false)]
     private ?\DateTimeInterface $updatedAt = null;
-
 
     public function __construct()
     {

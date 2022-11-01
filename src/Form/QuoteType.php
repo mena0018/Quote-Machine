@@ -20,11 +20,11 @@ class QuoteType extends AbstractType
         $builder
             ->add('content', TextType::class, [
                 'required' => true,
-                'constraints' => [new Assert\Length(['max' => 255])]
+                'constraints' => [new Assert\Length(['max' => 255])],
             ])
             ->add('meta', TextType::class, [
                 'required' => true,
-                'constraints' => [new Assert\Length(['max' => 255])]
+                'constraints' => [new Assert\Length(['max' => 255])],
             ])
             ->add('category', EntityType::class, [
                 'required' => true,

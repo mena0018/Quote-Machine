@@ -8,8 +8,8 @@ use App\Repository\QuoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/quote')]
@@ -18,12 +18,12 @@ class QuoteController extends AbstractController
     #[Route('/', name: 'quote_index')]
     public function index(Request $request, QuoteRepository $quoteRepository, PaginatorInterface $paginator): Response
     {
-        $searchTerm = $request->query->get("content");
+        $searchTerm = $request->query->get('content');
         $queryBuilder = $quoteRepository->createQueryBuilder('q');
 
         if (!empty($searchTerm)) {
             $queryBuilder->where('q.content LIKE :content')
-                ->setParameter('content', '%' . $searchTerm . '%');
+                ->setParameter('content', '%'.$searchTerm.'%');
         }
 
         $quotes = $paginator->paginate(
@@ -49,12 +49,13 @@ class QuoteController extends AbstractController
             $entityManager->persist($quote);
             $entityManager->flush();
 
-            $this->addFlash('success', "Citation ajoutée avec succès");
+            $this->addFlash('success', 'Citation ajoutée avec succès');
+
             return $this->redirectToRoute('quote_index');
         }
 
         return $this->render('quote/new.html.twig', [
-            'quoteForm' => $form->createView()
+            'quoteForm' => $form->createView(),
         ]);
     }
 
@@ -70,9 +71,7 @@ class QuoteController extends AbstractController
         $quote = $entityManager->getRepository(Quote::class)->find($id);
 
         if (!$quote) {
-            throw $this->createNotFoundException(
-                'Aucune citation trouvée pour l\'identifiant '.$id
-            );
+            throw $this->createNotFoundException('Aucune citation trouvée pour l\'identifiant '.$id);
         }
 
         $form = $this->createForm(QuoteType::class, $quote);
@@ -82,12 +81,13 @@ class QuoteController extends AbstractController
             $entityManager->persist($quote);
             $entityManager->flush();
 
-            $this->addFlash('success', "Citation modifiée avec succès");
+            $this->addFlash('success', 'Citation modifiée avec succès');
+
             return $this->redirectToRoute('quote_index');
         }
 
         return $this->render('quote/edit.html.twig', [
-            'quoteForm' => $form->createView()
+            'quoteForm' => $form->createView(),
         ]);
     }
 
@@ -99,11 +99,9 @@ class QuoteController extends AbstractController
         if ($quote) {
             $entityManager->remove($quote);
             $entityManager->flush();
-            $this->addFlash('success', "Citation supprimée avec succès");
+            $this->addFlash('success', 'Citation supprimée avec succès');
         } else {
-            throw $this->createNotFoundException(
-                'Aucune citation trouvée pour l\'identifiant '.$id
-            );
+            throw $this->createNotFoundException('Aucune citation trouvée pour l\'identifiant '.$id);
         }
 
         return $this->redirectToRoute('home');
@@ -117,7 +115,7 @@ class QuoteController extends AbstractController
         $qb->from('App:Quote', 'q');
 
         $res = $qb->getQuery()->getResult();
-        $flatRes = array_column($res, "id");
+        $flatRes = array_column($res, 'id');
         $id = $res[array_rand($flatRes, 1)];
 
         $quote = $entityManager->getRepository(Quote::class)->find($id);
