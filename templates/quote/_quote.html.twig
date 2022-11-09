@@ -3,7 +3,7 @@
     <figcaption class="text-secondary fst-italic">
         <cite>{{ quote.meta }}</cite>
         {% if quote.category %}
-            <a class="ms-1" href="{{ path('app_category_show', {id: quote.category.id}) }}">
+            <a class="ms-1" href="{{ path('app_category_show', {slug: quote.category.slug}) }}">
                 <span class="badge bg-dark">{{ quote.category.name }}</span>
             </a>
         {% endif %}

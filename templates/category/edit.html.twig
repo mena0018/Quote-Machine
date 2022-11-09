@@ -6,7 +6,7 @@
 <div class="container-xxl p-3">
     <h1 class="py-4">Modifier une citation</h1>
     {{ include('category/_form.html.twig') }}
-    <a href="{{ path('app_category_show', {'id': category.id}) }}"
+    <a href="{{ path('app_category_show', {slug: category.slug}) }}"
        class="mt-5 btn btn-secondary">Retour</a>
 </div>
 

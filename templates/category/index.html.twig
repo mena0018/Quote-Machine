@@ -14,7 +14,7 @@
                 {% endif %}
 
                 <div>
-                    <a href="{{ path('app_category_show', {'id': category[0].id}) }}" class="fs-5">{{ category[0].name }}</a>
+                    <a href="{{ path('app_category_show', {slug: category[0].slug}) }}" class="fs-5">{{ category[0].name }}</a>
                     <p class="pt-1">{{ category[1] }} citations.</p>
                 </div>
             </div>

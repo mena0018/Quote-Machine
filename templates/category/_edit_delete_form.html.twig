@@ -1,8 +1,8 @@
-<form method="post" action="{{ path('app_category_delete', {'id': category.id}) }}"
+<form method="post" action="{{ path('app_category_delete', {slug: category.slug}) }}"
         onsubmit="return confirm('Etes-vous sur de vouloir supprimer cette catégorie ?');">
 
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ category.id) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ category.slug) }}">
     
-    <a class="btn btn-light" href="{{ path('app_category_edit', {id: category.id}) }}">Modifier</a>
+    <a class="btn btn-light" href="{{ path('app_category_edit', {slug: category.slug}) }}">Modifier</a>
     <button class="btn btn-light">Supprimer</button>
 </form>
