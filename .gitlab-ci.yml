@@ -24,3 +24,13 @@ code-fixer: # Vérification du code PHP
   tags:
     - php81
     - composer
+
+lint-yaml: # Vérification du YAML
+  stage: code
+  dependencies:
+    - install
+  script:
+    - bin/console lint:yaml config
+  tags:
+    - php81
+    - composer
