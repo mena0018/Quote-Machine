@@ -12,7 +12,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
-#[Vich\Uploadable]
+/**
+ * @Vich\Uploadable
+ */
 class Category
 {
     #[ORM\Id]
@@ -28,7 +30,9 @@ class Category
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Quote::class)]
     private Collection $quotes;
 
-    #[Vich\UploadableField(mapping: 'image_upload', fileNameProperty: 'imageName')]
+    /**
+     * @Vich\UploadableField(mapping="image_upload", fileNameProperty="imageName")
+     */
     private ?File $imageFile = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
