@@ -6,3 +6,11 @@ cache:
 stages:
   - build
   - code
+
+install: # Installation des dépendances du projet
+  stage: build
+  script:
+    - composer install --prefer-dist --no-ansi --no-interaction --no-progress
+  tags:
+    - php81
+    - composer
