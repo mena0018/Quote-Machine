@@ -76,6 +76,7 @@
         "symfony/polyfill-php72": "*"
     },
     "scripts": {
+        "grum": "./vendor/bin/grumphp run",
         "cs": "./vendor/bin/php-cs-fixer fix -vvv --show-progress=dots",
         "db": [
             "php bin/console doctrine:database:drop --force --if-exists",
