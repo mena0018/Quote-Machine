@@ -34,3 +34,13 @@ lint-yaml: # Vérification du YAML
   tags:
     - php81
     - composer
+
+lint:twig: # Vérification du Twig
+  stage: code
+  dependencies:
+    - install
+  script:
+    - bin/console lint:twig templates
+  tags:
+    - php81
+    - composer
