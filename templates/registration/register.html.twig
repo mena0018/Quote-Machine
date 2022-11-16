@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register
+{% endblock %}
+
+{% block body %}
+	<div class="h-75 d-flex justify-content-center align-items-center">
+		<div class="col-lg-6 col-12 shadow py-5 px-md-5 px-5 px-md-0">
+			<h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
+
+			<div class="form-outline mb-4">
+				{{ form_start(registrationForm) }}
+			</div>
+
+			<div class="form-outline mb-4">
+				{{ form_row(registrationForm.email) }}
+			</div>
+            
+			<div class="form-outline mb-4">
+				{{ form_row(registrationForm.name) }}
+			</div>
+
+			<div class="form-outline mb-4">
+				{{ form_row(registrationForm.plainPassword) }}
+			</div>
+
+			<button type="submit" class="btn  btn-primary">S'inscrire</button>
+			{{ form_end(registrationForm) }}
+		</div>
+	</div>
+{% endblock %}
