@@ -7,6 +7,7 @@ use App\Form\QuoteType;
 use App\Repository\QuoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,6 +40,7 @@ class QuoteController extends AbstractController
     }
 
     #[Route('/new', name: 'quote_new')]
+    #[IsGranted('ROLE_USER')]
     public function new(EntityManagerInterface $entityManager, Request $request): Response
     {
         $quote = new Quote();
@@ -59,13 +61,8 @@ class QuoteController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'quote_show', methods: ['GET'])]
-    public function show(Quote $quote): Response
-    {
-        return $this->render('quote/show.html.twig', ['quote' => $quote]);
-    }
-
-    #[Route('/edit/{id}', name: 'quote_edit')]
+    #[Route('/{id}/edit', name: 'quote_edit')]
+    #[IsGranted('ROLE_USER')]
     public function edit(EntityManagerInterface $entityManager, Request $request, int $id): Response
     {
         $quote = $entityManager->getRepository(Quote::class)->find($id);
@@ -91,7 +88,8 @@ class QuoteController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{id}', name: 'quote_delete')]
+    #[Route('/{id}/delete', name: 'quote_delete')]
+    #[IsGranted('ROLE_USER')]
     public function delete(EntityManagerInterface $entityManager, int $id): Response
     {
         $quote = $entityManager->getRepository(Quote::class)->find($id);
@@ -123,5 +121,11 @@ class QuoteController extends AbstractController
         return $this->render('quote/random.html.twig', [
             'quote' => $quote,
         ]);
+    }
+
+    #[Route('/{id}', name: 'quote_show', methods: ['GET'])]
+    public function show(Quote $quote): Response
+    {
+        return $this->render('quote/show.html.twig', ['quote' => $quote]);
     }
 }

@@ -6,6 +6,9 @@
     <div class="container-xxl p-3">
         <h1 class="py-4">Citation</h1>
         {{ include('quote/_quote.html.twig') }}
-        {{ include('quote/_edit_delete.html.twig') }}
+
+        {% if is_granted('ROLE_USER') %}
+            {{ include('quote/_edit_delete.html.twig') }}
+        {% endif %}
     </div>
 {% endblock %}

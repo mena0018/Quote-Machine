@@ -1,11 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Citation aléatoire{% endblock %}
+{% block title %}Citation aléatoire
+{% endblock %}
 
 {% block body %}
-    <div class="container-xxl p-3">
-        <h1 class="py-4">Citation aléatoire</h1>
-            {{ include('quote/_quote.html.twig') }}
-            {{ include('quote/_edit_delete.html.twig') }}
-    </div>
+	<div class="container-xxl p-3">
+		<h1 class="py-4">Citation aléatoire</h1>
+		{{ include('quote/_quote.html.twig') }}
+
+		{% if is_granted('ROLE_USER') %}
+			{{ include('quote/_edit_delete.html.twig') }}
+		{% endif %}
+	</div>
 {% endblock %}

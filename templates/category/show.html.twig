@@ -1,28 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Category{% endblock %}
+{% block title %}Category
+{% endblock %}
 
 {% block body %}
-<div class="container-xxl p-3 h-100">
-    <h1>Catégorie "{{ category.name }}"</h1>
+	<div class="container-xxl p-3 h-100">
+		<h1>Catégorie "{{ category.name }}"</h1>
 
-    {% if category.imageName %}
-        <img class="pt-4 pb-3" src="{{ vich_uploader_asset(category) | imagine_filter('medium')}}" alt="{{ category.name }}">
-    {% endif %} 
+		{% if category.imageName %}
+			<img class="pt-4 pb-3" src="{{ vich_uploader_asset(category) | imagine_filter('medium')}}" alt="{{ category.name }}">
+		{% endif %}
 
-    <ul style="height: 40%" class="overflow-auto">
-        {% for quote in category.quotes %}
-            <li class="list-unstyled mb-5">
-                {{ include('quote/_quote.html.twig') }}
-                {{ include('quote/_quote_id.html.twig') }}
-            </li>
-       {% else %}
-            <li class="list-unstyled py-2 text-center fs-4 text-danger">Aucune citation trouvée pour cette catégorie</li>
-       {% endfor %}
-    </ul>
+		<ul style="height: 40%" class="overflow-auto">
+			{% for quote in category.quotes %}
+				<li class="list-unstyled mb-5">
+					{{ include('quote/_quote.html.twig') }}
+					{{ include('quote/_quote_id.html.twig') }}
+				</li>
+			{% else %}
+				<li class="list-unstyled py-2 text-center fs-4 text-danger">Aucune citation trouvée pour cette catégorie</li>
+			{% endfor %}
+		</ul>
 
+		{% if is_granted('ROLE_ADMIN') %}
+			{{ include('category/_edit_delete_form.html.twig') }}
+		{% endif %}
 
-    {{ include('category/_edit_delete_form.html.twig') }}
-</div>
+	</div>
 
 {% endblock %}
