@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\User;
+use Rollerworks\Component\PasswordStrength\Validator\Constraints as RollerworksPassword;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,7 +18,7 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email')
+            ->add('email', EmailType::class)
             ->add('name', TextType::class, [
                 'label' => 'Nom',
             ])
@@ -32,6 +34,11 @@ class RegistrationFormType extends AbstractType
                         'min' => 6,
                         'minMessage' => 'Votre mot de passe doit être d\'au  moins {{ limit }} caractères',
                         'max' => 4096,
+                    ]),
+                    new RollerworksPassword\PasswordRequirements([
+                        'requireLetters' => true,
+                        'requireNumbers' => true,
+                        'requireCaseDiff' => true,
                     ]),
                 ],
             ])
