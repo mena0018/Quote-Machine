@@ -21,13 +21,16 @@ class QuoteType extends AbstractType
             ->add('content', TextType::class, [
                 'required' => true,
                 'constraints' => [new Assert\Length(['max' => 255])],
+                'label' => 'Contenu',
             ])
             ->add('meta', TextType::class, [
                 'required' => true,
                 'constraints' => [new Assert\Length(['max' => 255])],
+                'label' => 'Méta',
             ])
             ->add('category', EntityType::class, [
                 'required' => true,
+                'label' => 'Catégorie',
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'query_builder' => function (CategoryRepository $q) {
