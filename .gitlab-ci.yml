@@ -35,12 +35,22 @@ lint-yaml: # Vérification du YAML
     - php81
     - composer
 
-lint:twig: # Vérification du Twig
+lint-twig: # Vérification du Twig
   stage: code
   dependencies:
     - install
   script:
     - bin/console lint:twig templates
+  tags:
+    - php81
+    - composer
+
+static-code-analyzer: # Analyse static du code
+  stage: code
+  dependencies:
+    - install
+  script:
+    - vendor/bin/phpstan analyse --level 3 src tests
   tags:
     - php81
     - composer
