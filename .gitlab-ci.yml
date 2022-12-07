@@ -6,6 +6,7 @@ cache:
 stages:
   - build
   - code
+  - test
 
 install: # Installation des dépendances du projet
   stage: build
@@ -51,6 +52,16 @@ static-code-analyzer: # Analyse static du code
     - install
   script:
     - vendor/bin/phpstan analyse --level 3 src tests
+  tags:
+    - php81
+    - composer
+
+test:functional:
+  stage: test
+  dependencies:
+    - install
+  script:
+    - composer test
   tags:
     - php81
     - composer
