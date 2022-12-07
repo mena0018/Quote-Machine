@@ -3,6 +3,19 @@ cache:
   paths:
     - vendor/
 
+variables:
+  # output upload and download progress every 2 seconds
+  TRANSFER_METER_FREQUENCY: "2s"
+
+  # Use fast compression for artifacts, resulting in larger archives
+  ARTIFACT_COMPRESSION_LEVEL: "fast"
+
+  # Use no compression for caches
+  CACHE_COMPRESSION_LEVEL: "fastest"
+
+  # Set maximum duration of cache upload and download
+  CACHE_REQUEST_TIMEOUT: 5
+
 stages:
   - build
   - code
