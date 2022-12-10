@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller;
+namespace App\Tests\Functional\Quotes;
 
 use App\Factory\UserFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -68,5 +68,28 @@ class QuoteControllerTest extends WebTestCase
 
         $this->assertSelectorTextContains('blockquote', $this->content.' modifiée');
         $this->assertSelectorTextContains('cite', $this->meta);
+    }
+
+    public function testDeletionQuote(): void
+    {
+        /* Creation + authentification de l'utilisateur */
+        $client = static::createClient();
+        $user = UserFactory::createOne()->object();
+        $client->loginUser($user);
+
+        /* Creation de la citation */
+        $client->request('POST', '/quote/new');
+        $client->submitForm('Sauvegarder', [
+            'quote[content]' => $this->content,
+            'quote[meta]' => $this->meta,
+        ]);
+
+        /* Suppression de cette citation */
+        $client->request('DELETE', '/quote/1/delete');
+
+        $client->followRedirect();
+
+        $this->assertSelectorNotExists('blockquote');
+        $this->assertSelectorNotExists('cite');
     }
 }
