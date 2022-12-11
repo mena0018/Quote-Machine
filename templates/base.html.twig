@@ -20,65 +20,9 @@
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>
+
 	<body style="height: 90vh">
-
-		<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
-			<div class="container-fluid">
-				<a class="navbar-brand" href="/">
-					<span class="pe-2 d-none d-xl-inline">📇</span>
-					Quote Machine
-				</a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav me-auto">
-						<li class="nav-item">
-							{% if is_granted('ROLE_USER') %}
-
-								<div class="dropdown">
-									<a class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-										Ajouter
-									</a>
-
-									<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-										<li>
-											<a class="dropdown-item" href="{{ path('quote_new') }}">Ajouter une citation</a>
-										</li>
-										<li>
-											<a class="dropdown-item" href="{{ path('app_category_new') }}">Ajouter une catégorie</a>
-										</li>
-									</ul>
-								</div>
-							</li>
-						{% endif %}
-						<li class="nav-item">
-							<a class="nav-link" href="{{ path('quote_random') }}">
-								Citation aléatoire
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{{ path('app_category_index') }}">
-								Catégorie
-							</a>
-						</li>
-					</ul>
-					<form method="get" class="d-flex">
-						<input class="form-control me-2" type="search" placeholder="Rechercher" aria-label="Search" name="content" value="{{ app.request.query.get('content') }}">
-						<button class="btn btn-outline-success" type="submit">Rechercher</button>
-					</form>
-
-					{% if app.user %}
-						<a href="{{ path('app_logout') }}" class="btn btn-danger ms-lg-2 mt-2 mt-lg-0">Déconnexion</a>
-					{% else %}
-						<a href="{{ path('app_login') }}" class="btn btn-primary ms-lg-2 mt-2 mt-lg-0">Connexion</a>
-					{% endif %}
-
-				</div>
-			</div>
-		</nav>
-
+		{% include('components/_navbar.html.twig') %}
 		{% block body %}{% endblock %}
 
 		{% for label, messages in app.flashes %}
