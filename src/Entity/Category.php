@@ -129,4 +129,9 @@ class Category
     {
         return $this->slug;
     }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
 }
