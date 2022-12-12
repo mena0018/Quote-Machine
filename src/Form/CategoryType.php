@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class CategoryType extends AbstractType
@@ -17,12 +18,14 @@ class CategoryType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom',
+                'required' => true,
+                'constraints' => [new Assert\Length(['max' => 255])],
             ])
             ->add('imageFile', VichImageType::class, [
                 'label' => 'Image',
+                'required' => false,
             ])
-            ->add('Sauvegarder', SubmitType::class)
-        ;
+            ->add('Sauvegarder', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
