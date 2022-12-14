@@ -10,8 +10,8 @@ class QuoteControllerTest extends WebTestCase
 {
     use Factories;
 
-    private string $content = 'Ceci est une citation de test';
-    private string $meta = 'PhpUnit';
+    private const CONTENT = 'Ceci est une citation de test';
+    private const META = 'PhpUnit';
 
     public function testHomePage(): void
     {
@@ -30,16 +30,16 @@ class QuoteControllerTest extends WebTestCase
 
         $client->request('POST', '/quote/new');
         $client->submitForm('Sauvegarder', [
-            'quote[content]' => $this->content,
-            'quote[meta]' => $this->meta,
+            'quote[content]' => self::CONTENT,
+            'quote[meta]' => self::META,
         ]);
 
         $client->followRedirect();
         $this->assertResponseIsSuccessful();
         $this->assertRouteSame('quote_index');
 
-        $this->assertSelectorTextContains('blockquote', $this->content);
-        $this->assertSelectorTextContains('cite', $this->meta);
+        $this->assertSelectorTextContains('blockquote', self::CONTENT);
+        $this->assertSelectorTextContains('cite', self::META);
     }
 
     public function testEditionQuote(): void
@@ -52,22 +52,22 @@ class QuoteControllerTest extends WebTestCase
         /* Creation de la citation */
         $client->request('POST', '/quote/new');
         $client->submitForm('Sauvegarder', [
-            'quote[content]' => $this->content,
-            'quote[meta]' => $this->meta,
+            'quote[content]' => self::CONTENT,
+            'quote[meta]' => self::META,
         ]);
 
         /* Modification de cette citation */
         $client->request('POST', '/quote/1/edit');
         $client->submitForm('Sauvegarder', [
-            'quote[content]' => $this->content.' modifiée',
-            'quote[meta]' => $this->meta,
+            'quote[content]' => self::CONTENT.' modifiée',
+            'quote[meta]' => self::META,
         ]);
 
         $client->followRedirect();
         $this->assertResponseIsSuccessful();
 
-        $this->assertSelectorTextContains('blockquote', $this->content.' modifiée');
-        $this->assertSelectorTextContains('cite', $this->meta);
+        $this->assertSelectorTextContains('blockquote', self::CONTENT.' modifiée');
+        $this->assertSelectorTextContains('cite', self::META);
     }
 
     public function testDeletionQuote(): void
@@ -80,8 +80,8 @@ class QuoteControllerTest extends WebTestCase
         /* Creation de la citation */
         $client->request('POST', '/quote/new');
         $client->submitForm('Sauvegarder', [
-            'quote[content]' => $this->content,
-            'quote[meta]' => $this->meta,
+            'quote[content]' => self::CONTENT,
+            'quote[meta]' => self::META,
         ]);
 
         /* Suppression de cette citation */
