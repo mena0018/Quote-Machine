@@ -90,7 +90,7 @@ class CategoryController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Category $category, CategoryRepository $categoryRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$category->getSlug(), $request->request->get('_token'))) {
             $categoryRepository->remove($category, true);
             $this->addFlash('success', 'Catégorie supprimée avec succès');
         }
