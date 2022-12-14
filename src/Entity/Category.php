@@ -42,7 +42,6 @@ class Category
     private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
-    #[Assert\NotBlank]
     #[Gedmo\Slug(fields: ['name'])]
     private string $slug;
 
@@ -128,10 +127,5 @@ class Category
     public function getSlug(): string
     {
         return $this->slug;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
     }
 }
