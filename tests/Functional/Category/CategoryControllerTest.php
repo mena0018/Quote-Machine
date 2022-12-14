@@ -71,4 +71,29 @@ class CategoryControllerTest extends WebTestCase
         $this->assertRouteSame('app_category_index');
         $this->assertSelectorTextContains('body', self::NAME.'modifiée');
     }
+
+    public function testDeletionCategory(): void
+    {
+        /* Creation + authentification de l'utilisateur */
+        $client = static::createClient();
+        $user = UserFactory::createOne([
+            'roles' => ['ROLE_ADMIN'],
+        ])->object();
+        $client->loginUser($user);
+
+        /* Creation de la catégorie */
+        $category = CategoryFactory::createOne(['name' => self::NAME]);
+        $category->assertPersisted();
+
+        /* Suppression de cette citation */
+        $client->request('GET', '/category/'.self::SLUG);
+        $client->submitForm('Supprimer', []);
+
+        $client->followRedirect();
+        $this->assertResponseIsSuccessful();
+
+        /* Vérification de cette suppression */
+        $this->assertRouteSame('app_category_index');
+        CategoryFactory::assert()->count(0);
+    }
 }
