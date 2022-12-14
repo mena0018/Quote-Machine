@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\QuoteRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Blameable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: QuoteRepository::class)]
@@ -30,6 +31,7 @@ class Quote
 
     #[ORM\ManyToOne(inversedBy: 'quotes')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Blameable(on: 'create')]
     private ?User $author = null;
 
     public function getId(): ?int
