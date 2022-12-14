@@ -28,6 +28,10 @@ class Quote
     #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private ?Category $category = null;
 
+    #[ORM\ManyToOne(inversedBy: 'quotes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -65,6 +69,18 @@ class Quote
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
