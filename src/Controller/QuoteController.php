@@ -71,6 +71,8 @@ class QuoteController extends AbstractController
             throw $this->createNotFoundException('Aucune citation trouvée pour l\'identifiant '.$id);
         }
 
+        $this->denyAccessUnlessGranted('EDIT', $quote);
+
         $form = $this->createForm(QuoteType::class, $quote);
         $form->handleRequest($request);
 
@@ -93,6 +95,7 @@ class QuoteController extends AbstractController
     public function delete(EntityManagerInterface $entityManager, int $id): Response
     {
         $quote = $entityManager->getRepository(Quote::class)->find($id);
+        $this->denyAccessUnlessGranted('DELETE', $quote);
 
         if ($quote) {
             $entityManager->remove($quote);
