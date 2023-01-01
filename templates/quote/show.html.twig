@@ -1,14 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Affichage d'une Citation{% endblock %}
+{% block title %}Affichage d'une Citation
+{% endblock %}
 
 {% block body %}
-    <div class="container-xxl p-3">
-        <h1 class="py-4">Citation</h1>
-        {{ include('quote/_quote.html.twig') }}
+	<div class="container-xxl p-3">
+		<h1 class="py-4">Citation</h1>
+		{{ include('quote/_quote.html.twig') }}
 
-        {% if is_granted('ROLE_USER') %}
-            {{ include('quote/_edit_delete.html.twig') }}
-        {% endif %}
-    </div>
+		{% if is_granted('EDIT', quote) or is_granted('DELETE', quote) %}
+			{{ include('quote/_edit_delete.html.twig') }}
+		{% endif %}
+	</div>
 {% endblock %}

@@ -8,7 +8,7 @@
 		<h1 class="py-4">Citation aléatoire</h1>
 		{{ include('quote/_quote.html.twig') }}
 
-		{% if is_granted('ROLE_USER') %}
+		{% if is_granted('EDIT', quote) or is_granted('DELETE', quote) %}
 			{{ include('quote/_edit_delete.html.twig') }}
 		{% endif %}
 	</div>
