@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\QuoteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Blameable;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -33,6 +35,14 @@ class Quote
     #[ORM\JoinColumn(nullable: false)]
     #[Blameable(on: 'create')]
     private ?User $author = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class)]
+    private Collection $likes;
+
+    public function __construct()
+    {
+        $this->likes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -85,5 +95,37 @@ class Quote
         $this->author = $author;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(User $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(User $like): self
+    {
+        $this->likes->removeElement($like);
+
+        return $this;
+    }
+
+    /**
+     * Get the number of likes.
+     */
+    public function howManyLikes(): int
+    {
+        return count($this->likes);
     }
 }

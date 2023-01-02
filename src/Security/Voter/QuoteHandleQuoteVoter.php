@@ -39,7 +39,7 @@ class QuoteHandleQuoteVoter extends Voter
         $quote = $subject;
 
         return match ($attribute) {
-            self::EDIT, self::DELETE => $quote->getAuthor()->getId() === $user->getId(),
+            self::EDIT, self::DELETE => $quote->getAuthor()->getUserIdentifier() === $user->getUserIdentifier(),
             default => false,
         };
     }

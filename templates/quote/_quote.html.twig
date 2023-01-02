@@ -1,12 +1,21 @@
- <figure class="m-0 mb-3">
-    <blockquote class="fs-5 m-0">{{ quote.content }}</blockquote>
-    <figcaption class="text-secondary fst-italic">
-        <cite>{{ quote.meta }}</cite>
-        {% if quote.category %}
-            <a class="ms-1" href="{{ path('app_category_show', {slug: quote.category.slug}) }}">
-                <span class="badge bg-dark">{{ quote.category.name }}</span>
-            </a>
-        {% endif %}
-        <p class="fst-normal">par <a href="#">{{quote.author.name}}</p></a>
-    </figcaption>
-</figure>
+<blockquote class="blockquote d-flex align-items-center gap-4">
+	<div class="d-flex flex-column align-items-center gap-2">
+		<img src={{ asset('/images/heart.svg') }} alt="heart" id="like" style="width: 32px; height:32px">
+		<span>{{quote.howManyLikes()}}</span>
+	</div>
+
+	<figure class="m-0 mb-3">
+		<blockquote class="fs-5 m-0">{{ quote.content }}</blockquote>
+		<figcaption class="text-secondary fst-italic">
+			<cite>{{ quote.meta }}</cite>
+			{% if quote.category %}
+				<a class="ms-1" href="{{ path('app_category_show', {slug: quote.category.slug}) }}">
+					<span class="badge bg-dark">{{ quote.category.name }}</span>
+				</a>
+			{% endif %}
+			<p class="fst-normal">par
+				<a href="#">{{quote.author.name}}</p>
+			</p>
+		</a>
+	</figcaption>
+</figure></blockquote>
