@@ -6,29 +6,36 @@
 {% block body %}
 
 	<div class="container-xxl p-3 position-relative h-100">
-		<h1 class="pt-4 pb-5">Profil de "{{user.name}}"</h1>
+		<h1 class="py-4">Profil de "{{user.name}}"</h1>
 
-		<div class="row mb-3">
-			<div class="col-md-6">
-				<div class="card">
-					<div class="card-body">
-
-						<div class="mb-3">
-							Niveau
-							<span class="border border-primary rounded-circle px-2 py-1">6</span>
-						</div>
-						<div class="mb-3">
-							<span>Prochain  niveau</span>
-							<div class="progress mb-3">
-								<div class="progress-bar" role="progressbar" style="width: 94%" aria-valuenow="94" aria-valuemin="0" aria-valuemax="100"></div>
-							</div>
-							<span>Membre de l'application depuis le
-								{{ user.registrationDate | date("m/d/Y")}}.</span>
-						</div>
+		<div class="card">
+			<div class="card-body">
+				<div class="mb-3">
+					Niveau
+					<span class="border border-primary rounded-circle px-2 py-1">6</span>
+				</div>
+				<div class="mb-3">
+					<span>Prochain  niveau</span>
+					<div class="progress mb-3">
+						<div class="progress-bar" role="progressbar" style="width: 94%" aria-valuenow="94" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
+					<span>Membre de l'application depuis le
+						{{ user.registrationDate | date("m/d/Y")}}.</span>
 				</div>
 			</div>
 		</div>
+
+		<h2 class="mt-5">5 dernières citations</h2>
+		<ul class="mt-4 overflow-auto" style="height: 50%">
+			{% for quote in quotes %}
+				<li class=" list-unstyled mb-5">
+					{{ include('quote/_quote.html.twig') }}
+					{{ include('quote/_quote_id.html.twig') }}
+				</li>
+			{% else %}
+				<li class="list-unstyled py-2 text-center fs-4 text-danger">Aucune citation créée par cet utilisateur</li>
+			{% endfor %}
+		</ul>
 
 	</div>
 {% endblock %}
