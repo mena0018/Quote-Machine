@@ -50,6 +50,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeInterface $registrationDate = null;
 
+    #[ORM\Column]
+    private ?int $experience = null;
+
     public function __construct()
     {
         $this->quotes = new ArrayCollection();
@@ -195,6 +198,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRegistrationDate(\DateTimeInterface $registrationDate): self
     {
         $this->registrationDate = $registrationDate;
+
+        return $this;
+    }
+
+    public function getExperience(): ?int
+    {
+        return $this->experience;
+    }
+
+    public function setExperience(int $experience): self
+    {
+        $this->experience = $experience;
 
         return $this;
     }
