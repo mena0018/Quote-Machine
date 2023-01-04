@@ -38,6 +38,11 @@ class Quote
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeInterface $createdAt = null;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

@@ -57,6 +57,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->quotes = new ArrayCollection();
         $this->registrationDate = new \DateTime();
+        $this->experience = 0;
     }
 
     public function getId(): ?int
