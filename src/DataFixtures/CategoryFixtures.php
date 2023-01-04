@@ -12,10 +12,12 @@ class CategoryFixtures extends Fixture
     {
         CategoryFactory::createOne([
             'name' => 'Kaamelott',
+            'image_name' => 'kameloot.jpeg',
         ]);
 
         CategoryFactory::createOne([
             'name' => 'Peaky Blinders',
+            'image_name' => 'peaky.jpeg',
         ]);
 
         CategoryFactory::createMany(5);
