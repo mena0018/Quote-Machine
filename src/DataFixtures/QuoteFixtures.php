@@ -17,7 +17,7 @@ class QuoteFixtures extends Fixture implements DependentFixtureInterface
         $user = UserFactory::find(['email' => 'admin@admin.fr']);
 
         QuoteFactory::createOne([
-            'content' => 'Qu\'est-ce que vous voulez-vous insinuyer Sire ?',
+            'content' => 'Qu\'est-ce que vous voulez-vous insinuer Sire ?',
             'meta' => 'Roparzh, Kaamelott, Livre III, 74 : Saponides et detergents',
             'category' => $kaamelottCategory,
             'author' => $user,
