@@ -1,12 +1,17 @@
- <figure class="m-0 mb-3">
-    <blockquote class="fs-5 m-0">{{ quote.content }}</blockquote>
-    <figcaption class="text-secondary fst-italic">
-        <cite>{{ quote.meta }}</cite>
-        {% if quote.category %}
-            <a class="ms-1" href="{{ path('app_category_show', {slug: quote.category.slug}) }}">
-                <span class="badge bg-dark">{{ quote.category.name }}</span>
-            </a>
-        {% endif %}
-        <p class="fst-normal">par <a href="#">{{quote.author.name}}</p></a>
-    </figcaption>
-</figure>
+<figure class="m-0 mb-3">
+	<blockquote class="fs-5 m-0">{{ quote.content }}</blockquote>
+	<figcaption class="text-secondary fst-italic">
+		<cite>{{ quote.meta }}</cite>
+		{% if quote.category %}
+			<a class="ms-1" href="{{ path('app_category_show', {slug: quote.category.slug}) }}">
+				<span class="badge bg-dark">{{ quote.category.name }}</span>
+			</a>
+		{% endif %}
+		<p class="fst-normal">
+			Le
+			{{quote.createdAt|date('d/m/Y à h:m')}}
+			par
+			<a href={{ path('app_profile', {id: quote.author.id} )}}>{{quote.author.name}}</p>
+		</p>
+	</a>
+</figcaption></figure>
