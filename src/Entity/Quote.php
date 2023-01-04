@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\QuoteRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Blameable;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -33,6 +34,9 @@ class Quote
     #[ORM\JoinColumn(nullable: false)]
     #[Blameable(on: 'create')]
     private ?User $author = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeInterface $createdAt = null;
 
     public function getId(): ?int
     {
@@ -83,6 +87,18 @@ class Quote
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
