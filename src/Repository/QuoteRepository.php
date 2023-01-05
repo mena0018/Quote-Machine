@@ -40,27 +40,27 @@ class QuoteRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Quote[] Returns an array of Quote objects
+     * Retourne un tableau d'id de citations.
      */
-    public function findByContent($value): array
+    public function findQuoteId(): array
     {
         return $this->createQueryBuilder('q')
-            ->andWhere('q.content = :val')
-            ->setParameter('val', $value)
-            ->orderBy('q.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('q.id')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
-//    public function findOneBySomeField($value): ?Quote
-//    {
-//        return $this->createQueryBuilder('q')
-//            ->andWhere('q.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * @return Quote[] Retourne les 5 dernières citations de l'utilisateur
+     */
+    public function findLastQuotes($user): array
+    {
+        return $this->createQueryBuilder('q')
+            ->where('q.author = :user')
+            ->setParameter('user', $user)
+            ->orderBy('q.createdAt', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+    }
 }
