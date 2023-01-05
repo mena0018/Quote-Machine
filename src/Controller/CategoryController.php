@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,17 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryController extends AbstractController
 {
     #[Route('/', name: 'app_category_index', methods: ['GET'])]
-    public function index(Request $request, PaginatorInterface $paginator, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, PaginatorInterface $paginator, CategoryRepository $categoryRepository): Response
     {
-        $queryBuilder = $entityManager->createQuery(
-            'SELECT c, COUNT(q)
-             FROM App\Entity\Category c
-             LEFT JOIN c.quotes q
-             GROUP BY c
-             ORDER BY COUNT(q) DESC');
+        $data = $categoryRepository->findCategories();
 
         $categories = $paginator->paginate(
-            $queryBuilder->getResult(),
+            $data,
             $request->query->getInt('page', 1),
             5
         );

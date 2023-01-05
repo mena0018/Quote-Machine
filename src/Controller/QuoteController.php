@@ -109,15 +109,12 @@ class QuoteController extends AbstractController
     }
 
     #[Route('/random', name: 'quote_random')]
-    public function random(EntityManagerInterface $entityManager): Response
+    public function random(EntityManagerInterface $entityManager, QuoteRepository $quoteRepository): Response
     {
-        $qb = $entityManager->createQueryBuilder();
-        $qb->select('q.id');
-        $qb->from('App:Quote', 'q');
+        $listOfId = $quoteRepository->findQuoteId();
 
-        $res = $qb->getQuery()->getResult();
-        $flatRes = array_column($res, 'id');
-        $id = $res[array_rand($flatRes, 1)];
+        $flatRes = array_column($listOfId, 'id');
+        $id = $listOfId[array_rand($flatRes, 1)];
 
         $quote = $entityManager->getRepository(Quote::class)->find($id);
 
