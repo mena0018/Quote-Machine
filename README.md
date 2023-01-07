@@ -1,6 +1,5 @@
 # Quote Machine - Symfony
 
-
 ## Sommaire
 
 - [Installation du projet](#installation)
@@ -8,7 +7,17 @@
 - [Lancement de l'application]("start)
 - [Aperçu](#apercu)
 
-### Installation du projet
+### Installation du projet (avec Docker)
+
+```bash
+  git clone https://iut-info.univ-reims.fr/gitlab/mena0018/quote-machine.git
+  cd quote-machine/
+  docker-compose up -d
+  docker exec -ti www_quote_machine bash
+  composer install
+```
+
+### Sans docker
 
 ```bash
   git clone https://iut-info.univ-reims.fr/gitlab/mena0018/quote-machine.git
@@ -25,8 +34,8 @@
 ### Lancement de l'application
 
 ```bash
-  symfony server:start
-  http://127.0.0.1:8000/   
+  symfony serve
+  http://127.0.0.1:8173/
 ```
 
 ### Aperçu
