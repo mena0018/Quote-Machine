@@ -3,7 +3,9 @@
 namespace App\Factory;
 
 use App\Entity\Quote;
+use App\Event\QuoteCreatedEvent;
 use App\Repository\QuoteRepository;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
 use Zenstruck\Foundry\RepositoryProxy;
@@ -29,6 +31,11 @@ use Zenstruck\Foundry\RepositoryProxy;
  */
 final class QuoteFactory extends ModelFactory
 {
+    public function __construct(private EventDispatcherInterface $eventDispatcher)
+    {
+        parent::__construct();
+    }
+
     protected function getDefaults(): array
     {
         return [
@@ -40,5 +47,14 @@ final class QuoteFactory extends ModelFactory
     protected static function getClass(): string
     {
         return Quote::class;
+    }
+
+    protected function initialize(): self
+    {
+        return $this
+            ->afterInstantiate(function (Quote $quote) {
+                $event = new QuoteCreatedEvent($quote);
+                $this->eventDispatcher->dispatch($event);
+            });
     }
 }

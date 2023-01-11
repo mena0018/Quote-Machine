@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Quote;
+use App\Event\QuoteCreatedEvent;
 use App\Form\QuoteType;
 use App\Repository\QuoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 #[Route('/quote')]
 class QuoteController extends AbstractController
@@ -41,7 +43,7 @@ class QuoteController extends AbstractController
 
     #[Route('/new', name: 'quote_new')]
     #[IsGranted('ROLE_USER')]
-    public function new(EntityManagerInterface $entityManager, Request $request): Response
+    public function new(EntityManagerInterface $entityManager, Request $request, EventDispatcherInterface $eventDispatcher): Response
     {
         $quote = new Quote();
         $form = $this->createForm(QuoteType::class, $quote);
@@ -50,6 +52,9 @@ class QuoteController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($quote);
             $entityManager->flush();
+
+            $event = new QuoteCreatedEvent($quote);
+            $eventDispatcher->dispatch($event);
 
             $this->addFlash('success', 'Citation ajoutée avec succès');
 
