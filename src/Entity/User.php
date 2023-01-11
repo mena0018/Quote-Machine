@@ -214,4 +214,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function addExperience($experience): self
+    {
+        $this->setExperience($this->getExperience() + $experience);
+
+        return $this;
+    }
 }
