@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Util\GamificationEngine;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -220,5 +221,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->setExperience($this->getExperience() + $experience);
 
         return $this;
+    }
+
+    public function getLevel(): ?int
+    {
+        return GamificationEngine::computeLevelForUser($this);
+    }
+
+    public function getLevelCompletion(): ?int
+    {
+        return GamificationEngine::computeLevelCompletionForUser($this);
     }
 }
