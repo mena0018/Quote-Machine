@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Quote;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -42,8 +43,17 @@ class QuoteRepository extends ServiceEntityRepository
     /**
      * Retourne un tableau d'id de citations.
      */
-    public function findQuoteId(): array
+    public function findQuoteId(?Category $category = null): array
     {
+        if ($category) {
+            return $this->createQueryBuilder('q')
+                ->select('q.id')
+                ->where('q.category = :category')
+                ->setParameter('category', $category)
+                ->getQuery()
+                ->getResult();
+        }
+
         return $this->createQueryBuilder('q')
             ->select('q.id')
             ->getQuery()
@@ -62,5 +72,34 @@ class QuoteRepository extends ServiceEntityRepository
             ->setMaxResults(5)
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @return Quote Retourne une citation aléatoire
+     */
+    public function findRandomQuote(?Category $category = null): ?Quote
+    {
+        $qb = $this->createQueryBuilder('q')
+            ->select('q.id');
+
+        if ($category) {
+            $qb
+                ->where('q.category = :category')
+                ->setParameter('category', $category);
+        }
+
+        $listOfId = $qb
+            ->getQuery()
+            ->getResult();
+
+        if (empty($listOfId)) {
+            return null;
+        }
+
+        $flatRes = array_column($listOfId, 'id');
+        $id = $listOfId[array_rand($flatRes, 1)];
+        $quote = $this->find($id);
+
+        return $quote;
     }
 }

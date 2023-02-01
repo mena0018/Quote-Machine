@@ -116,15 +116,8 @@ class QuoteController extends AbstractController
     #[Route('/random', name: 'quote_random')]
     public function random(EntityManagerInterface $entityManager, QuoteRepository $quoteRepository): Response
     {
-        $listOfId = $quoteRepository->findQuoteId();
-
-        $flatRes = array_column($listOfId, 'id');
-        $id = $listOfId[array_rand($flatRes, 1)];
-
-        $quote = $entityManager->getRepository(Quote::class)->find($id);
-
         return $this->render('quote/random.html.twig', [
-            'quote' => $quote,
+            'quote' => $quoteRepository->findRandomQuote(),
         ]);
     }
 
