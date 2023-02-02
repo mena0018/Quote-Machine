@@ -41,6 +41,7 @@ final class QuoteFactory extends ModelFactory
         return [
             'content' => self::faker()->unique()->sentence(),
             'meta' => self::faker()->unique()->name(),
+            // 'author' => UserFactory::new(),
         ];
     }
 
@@ -52,7 +53,7 @@ final class QuoteFactory extends ModelFactory
     protected function initialize(): self
     {
         return $this
-            ->afterInstantiate(function (Quote $quote) {
+            ->afterPersist(function (Quote $quote) {
                 $event = new QuoteCreatedEvent($quote);
                 $this->eventDispatcher->dispatch($event);
             });
