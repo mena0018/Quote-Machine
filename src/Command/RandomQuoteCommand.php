@@ -50,7 +50,7 @@ class RandomQuoteCommand extends Command
         $quote = $this->quoteRepository->findRandomQuote($category);
 
         if (!$quote) {
-            $io->error(sprintf('Aucun citation trouvé'));
+            $io->error(sprintf('Aucune citation trouvé'));
 
             return Command::FAILURE;
         }

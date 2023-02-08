@@ -29,7 +29,6 @@ class QuoteCreatedListener
 
         $userNeverPost ? $author->setExperience($experience + 120) : $author->setExperience($experience + 100);
 
-        $this->entityManager->persist($quote);
         $this->entityManager->flush();
     }
 }

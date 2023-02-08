@@ -41,7 +41,7 @@ final class QuoteFactory extends ModelFactory
         return [
             'content' => self::faker()->unique()->sentence(),
             'meta' => self::faker()->unique()->name(),
-            // 'author' => UserFactory::new(),
+            'author' => UserFactory::new(),
         ];
     }
 
