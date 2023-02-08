@@ -1,24 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des citations{% endblock %}
+{% block title %}Liste des citations
+{% endblock %}
 
 {% block body %}
 
-<div class="container-xxl p-3 position-relative h-100">
-    <h1 class="pt-4 pb-5">Liste des citations</h1>
-    <ul class="overflow-auto h-75">
-       {% for quote in quotes %}
-            <li class="list-unstyled mb-5">
-                {{ include('quote/_quote.html.twig') }}
-                {{ include('quote/_quote_id.html.twig') }}
-            </li>
-       {% else %}
-            <li class="list-unstyled py-2 text-center fs-4 text-danger">Aucune citation trouvée</li>
-       {% endfor %}
-    </ul>
-    <div class="position-absolute bottom-0 end-0">
-        {{ knp_pagination_render(quotes) }}
-    </div>
-</div>
+	<div class="container-xxl p-3 position-relative h-100">
+		<h1 class="pt-4 pb-5">Liste des citations</h1>
+		<ul class="overflow-auto h-75">
+			{% for quote in quotes %}
+				<li class="list-unstyled mb-5">
+					{{ include('quote/_quote.html.twig') }}
+					{{ include('quote/_quote_id.html.twig') }}
+				</li>
+			{% else %}
+				<li class="list-unstyled py-2 text-center fs-4 text-danger">Aucune citation trouvée</li>
+			{% endfor %}
+
+			<div class="d-flex">
+				<a href="{{ path('quote_csv') }}" class="btn btn-secondary me-2">Exporter en CSV</a>
+			</div>
+		</ul>
+		<div class="position-absolute bottom-0 end-0">
+			{{ knp_pagination_render(quotes) }}
+		</div>
+	</div>
 
 {% endblock %}

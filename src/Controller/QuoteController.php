@@ -10,9 +10,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 #[Route('/quote')]
@@ -66,6 +69,29 @@ class QuoteController extends AbstractController
         ]);
     }
 
+    #[Route('/quote.csv', name: 'quote_csv')]
+    public function exportCsv(SerializerInterface $serializer, QuoteRepository $quoteRepository): Response
+    {
+        $quotes = $quoteRepository->findAll();
+
+        $csv = $serializer->serialize($quotes, 'csv', [
+            'groups' => 'csv',
+            AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
+        ]);
+
+        $response = new Response($csv);
+
+        $disposition = HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            'quote.csv'
+        );
+
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', $disposition);
+
+        return $response;
+    }
+
     #[Route('/{id}/edit', name: 'quote_edit')]
     #[IsGranted('ROLE_USER')]
     public function edit(EntityManagerInterface $entityManager, Request $request, int $id): Response
@@ -114,7 +140,7 @@ class QuoteController extends AbstractController
     }
 
     #[Route('/random', name: 'quote_random')]
-    public function random(EntityManagerInterface $entityManager, QuoteRepository $quoteRepository): Response
+    public function random(QuoteRepository $quoteRepository): Response
     {
         return $this->render('quote/random.html.twig', [
             'quote' => $quoteRepository->findRandomQuote(),

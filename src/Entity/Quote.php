@@ -6,6 +6,7 @@ use App\Repository\QuoteRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Blameable;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: QuoteRepository::class)]
@@ -19,23 +20,28 @@ class Quote
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
     #[ORM\Column(length: 255)]
+    #[Groups('csv')]
     private ?string $content = null;
 
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
     #[ORM\Column(length: 255)]
+    #[Groups('csv')]
     private ?string $meta = null;
 
     #[ORM\ManyToOne(inversedBy: 'quotes')]
     #[ORM\JoinColumn(onDelete: 'SET NULL')]
+    #[Groups('csv')]
     private ?Category $category = null;
 
     #[ORM\ManyToOne(inversedBy: 'quotes')]
     #[ORM\JoinColumn(nullable: false)]
     #[Blameable(on: 'create')]
+    #[Groups('csv')]
     private ?User $author = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
+    #[Groups('csv')]
     private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()

@@ -2,6 +2,7 @@
 
 namespace App\Tests\Functional\Quotes;
 
+use App\Factory\QuoteFactory;
 use App\Factory\UserFactory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Zenstruck\Foundry\Test\Factories;
@@ -91,5 +92,29 @@ class QuoteControllerTest extends WebTestCase
 
         $this->assertSelectorNotExists('blockquote');
         $this->assertSelectorNotExists('cite');
+    }
+
+    public function assertResponseIsAttachment(string $filename, string $message = ''): void
+    {
+        $headerValue = sprintf(
+            'attachment; filename=%s',
+            $filename,
+        );
+
+        self::assertResponseHeaderSame('content-disposition', $headerValue, $message);
+    }
+
+    public function testExportCsv(): void
+    {
+        $client = static::createClient();
+        QuoteFactory::createMany(10);
+
+        $client->request('GET', '/quote');
+        $client->followRedirect();
+        $client->clickLink('Exporter en CSV');
+
+        $this->assertResponseIsAttachment('quote.csv');
+        $csv = array_map('str_getcsv', array_filter(explode("\n", $client->getResponse()->getContent())));
+        $this->assertCount(11, $csv);
     }
 }
