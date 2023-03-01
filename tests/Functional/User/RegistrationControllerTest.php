@@ -22,8 +22,14 @@ class RegistrationControllerTest extends WebTestCase
           'registration_form[plainPassword]' => self::PASSWORD,
         ]);
 
-        $client->followRedirect();
+        // Test de l'envoie d'un mail après l'inscription
+        $this->assertQueuedEmailCount(1);
+        $email = $this->getMailerMessage();
 
+        $this->assertEmailAddressContains($email, 'To', self::EMAIL);
+        $this->assertEmailTextBodyContains($email, 'Merci d\'avoir rejoint la <strong>quote machine \n À bientôt,');
+
+        $client->followRedirect();
         $this->assertResponseIsSuccessful();
         $this->assertRouteSame('quote_index');
     }
