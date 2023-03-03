@@ -10,7 +10,7 @@
 ### Installation du projet (avec Docker)
 
 ```bash
-  git clone https://iut-info.univ-reims.fr/gitlab/mena0018/quote-machine.git
+  git clone https://github.com/mena0018/Quote-Machine.git
   cd quote-machine/
   docker-compose up -d
   docker exec -ti www_quote_machine bash
@@ -20,7 +20,7 @@
 ### Sans docker
 
 ```bash
-  git clone https://iut-info.univ-reims.fr/gitlab/mena0018/quote-machine.git
+  git clone https://github.com/mena0018/Quote-Machine.git
   cd quote-machine/
   composer install
 ```
